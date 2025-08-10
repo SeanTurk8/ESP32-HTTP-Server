@@ -1,31 +1,28 @@
-1. Power On
-When the ESP32 boots, app_main() runs and initializes Wi-Fi in both Station and Access Point modes.
+## How It Works (Step-by-Step)
 
-2. Connect to Router & Host Own Network
-Station Mode: The ESP32 connects to your home Wi-Fi using the SSID/password you configured.
+1. **Power On**  
+   - The `app_main()` function runs automatically on boot.  
+   - Initializes Wi-Fi in both **Station** and **Access Point** modes.  
 
-Access Point Mode: Simultaneously, it creates its own Wi-Fi network (e.g., ESP32-AP) that other devices can join directly.
+2. **Connect to Router & Host a Network**  
+   - **Station Mode** → Connects to your home Wi-Fi using the configured SSID and password.  
+   - **Access Point Mode** → Creates its own Wi-Fi network (e.g., `ESP32-AP`) for direct device connections.  
 
-3. Wi-Fi Events Trigger Automatically
-The event handler monitors key Wi-Fi events:
+3. **Handle Wi-Fi Events**  
+   - The event handler (`wifi_event_handler`) listens for:  
+     - **STA Start** – Begin connecting to router.  
+     - **STA Connected / Disconnected** – Log events and retry if disconnected.  
+     - **STA Got IP** – Store and display assigned IP.  
+     - **AP Client Connect / Disconnect** – Log devices joining/leaving the ESP32 network.  
 
-STA Start → Begin connection
+4. **Start HTTP Server**  
+   - Configures server defaults using `HTTPD_DEFAULT_CONFIG()`.  
+   - Registers the root path `/` to handle GET requests with `hello_get_handler()`.  
 
-STA Connected / Disconnected → Log status and retry on disconnect
+5. **Serve Portfolio Webpage**  
+   - Visiting the ESP32’s IP triggers the HTML page stored in `hello_get_handler()`.  
+   - Displays personal info, background, and embedded systems projects.  
 
-STA Got IP → Receive and log the assigned IP address via DHCP
-
-4. Launch HTTP Server
-Once Wi-Fi is running:
-
-The HTTP server starts with default settings.
-
-The root path / is registered so GET requests to it invoke hello_get_handler().
-
-5. Serve Your Webpage
-When someone navigates to the ESP32’s IP (either the AP’s 192.168.4.1 or the STA’s IP returned by the router):
-
-The server responds by sending your custom HTML portfolio page with details about your projects and contacts.
-
-6. View in Any Browser
-You—or any client device—can open the ESP32’s web page by entering the correct IP in a browser. The portfolio page is displayed instantly, hosted right from the ESP32.
+6. **Access from Any Device**  
+   - **AP Mode** → Visit `http://192.168.4.1/`  
+   - **STA Mode** → Visit the router-assigned IP (shown in UART logs).
