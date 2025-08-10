@@ -1,0 +1,36 @@
+# De-emphasize build outputs and precompiled libs
+build/**                linguist-generated
+**/*.o                  linguist-generated
+**/*.obj                linguist-generated
+**/*.a                  linguist-vendored
+**/*.elf                linguist-generated
+**/*.bin                linguist-generated
+**/*.map                linguist-generated
+**/*.lst                linguist-generated
+
+# If you’ve checked in the ESP-IDF tree or managed components, treat as vendored
+esp-idf/**             linguist-vendored
+managed_components/**  linguist-vendored
+components/esp_**/**   linguist-vendored
+
+# Assembly listings that may skew stats
+**/*.S                 linguist-generated
+**/*.s                 linguist-generated
+# ESP-IDF build
+/build/
+/managed_components/
+/CMakeFiles/
+/cmake-build-*/
+
+# Binaries / artifacts
+*.bin
+*.elf
+*.map
+*.o
+*.obj
+*.a
+*.lst
+
+# SDK config (keep defaults separately if needed)
+sdkconfig
+sdkconfig.old
